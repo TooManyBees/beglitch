@@ -18,10 +18,10 @@ highp float rand(vec2 co) {
   return fract(sin(sn) * c);
 }
 
+float magnitude = max(u_magnitude, 1.0) / u_resolution.x;
+
 void main() {
   vec2 uv = v_texcoord.xy;
-
-  float magnitude = u_magnitude / u_resolution.x;
 
   float time = u_time;
 

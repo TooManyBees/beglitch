@@ -31,12 +31,14 @@ float scan(vec2 uv, float t) {
   return smoothstep(period - bandwidth, period, y) - smoothstep(period, period + bandwidth, y);
 }
 
+float magnitude = max(u_magnitude, 1.0) / u_resolution.x;
+
 void main() {
   vec2 uv = v_texcoord.xy;
   float time = u_time;
 
   vec2 offset = uv;
-  offset.x += u_magnitude / u_resolution.x * rand(vec2(time*0.004, uv.y*0.002));
+  offset.x += magnitude * rand(vec2(time*0.004, uv.y*0.002));
   offset.x += sin(time*9.0)*0.0005;
 
   offset.x += u_jitter * scan(uv, time);
