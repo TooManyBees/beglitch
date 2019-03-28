@@ -23,7 +23,6 @@ void main() {
 
   float magnitude = u_magnitude / u_resolution.x;
 
-  // float time = float(u_frame) / 6000.0;
   float time = u_time;
 
   vec2 offsetRedUV = uv;

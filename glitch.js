@@ -22,6 +22,14 @@ void main() {
 }
 `;
 
+function debounce(callback, ms) {
+  var last;
+  return function() {
+    clearTimeout(last);
+    last = setTimeout(callback, ms);
+  }
+}
+
 const INVIEW_CLOSURES = [];
 window.addEventListener('scroll', debounce(function() {
   INVIEW_CLOSURES.forEach(cb => cb());
@@ -32,7 +40,6 @@ function isInView(element) {
   return !(rect.y + rect.height < 0 || rect.y > window.innerHeight);
 }
 
-// const COLOR_MATCHER = /^rgba?\((\d+), (\d+), (\d+)/;
 function findBackgroundColor(element) {
   const BLANK = 'rgba(0, 0, 0, 0)';
   let bg = BLANK;
@@ -41,10 +48,6 @@ function findBackgroundColor(element) {
     bg = getComputedStyle(currentEl).backgroundColor;
     currentEl = currentEl.parentElement;
   }
-  // const match = bg.match(COLOR_MATCHER);
-  // if (match) {
-  //   bg = `rgba(${match[1]}, ${match[2]}, ${match[3]}, 0.01)`;
-  // }
   return bg;
 }
 

@@ -1,5 +1,3 @@
-const HTML = document.querySelector('html');
-
 function compileShader(gl, source, type) {
   const shader = gl.createShader(type);
   gl.shaderSource(shader, source);
@@ -25,13 +23,13 @@ function linkShaders(gl, vertex, fragment) {
 
 const UNIFORM = Symbol('uniforms');
 const WATCH_RESIZE = Symbol('watchingResize');
-// const WATCH_SCROLL = Symbol('watchingScroll');
 const VERTEX_SOURCE = `
 attribute vec2 a_position;
 void main() {
   gl_Position = vec4(a_position, 0.0, 1.0);
 }
 `;
+
 function resize(gl) {
   const nWidth = gl.canvas.clientWidth;
   const nHeight = gl.canvas.clientHeight;
@@ -39,33 +37,15 @@ function resize(gl) {
     gl.canvas.width = nWidth;
     gl.canvas.height = nHeight;
     gl.uniform2f(gl[UNIFORM]["u_resolution"], nWidth, nHeight);
-    gl.uniform1f(gl[UNIFORM]["u_depth"], HTML.scrollHeight);
-    // scroll(gl);
     gl.viewport(0, 0, nWidth, nHeight);
   }
 }
-// function scroll(gl) {
-//   gl.uniform1f(gl[UNIFORM]["u_scrolldepth"], window.scrollY);
-// }
+
 function watchResize(gl) {
   if (gl[WATCH_RESIZE]) { return; }
   gl[WATCH_RESIZE] = true;
   window.addEventListener('resize', () => resize(gl));
 }
-// let DRAWING_NEXT_FRAME = false;
-// function watchScroll(gl, draw) {
-//   function nextFrame() {
-//     scroll(gl);
-//     draw();
-//     DRAWING_NEXT_FRAME = false;
-//   }
-//   window.addEventListener('scroll', () => {
-//     if (!DRAWING_NEXT_FRAME) {
-//       DRAWING_NEXT_FRAME = true;
-//       setTimeout(nextFrame, 64);
-//     }
-//   });
-// }
 
 function initCanvasGl(canvas, fragmentSource, vertexSource = VERTEX_SOURCE) {
   if (!(canvas && fragmentSource && vertexSource)) { return; }
@@ -87,33 +67,22 @@ function initCanvasGl(canvas, fragmentSource, vertexSource = VERTEX_SOURCE) {
   gl[UNIFORM] = {};
   const uniformResolution = gl[UNIFORM]["u_resolution"] = gl.getUniformLocation(program, "u_resolution");
   gl.uniform2f(uniformResolution, canvas.width, canvas.height);
-  const uniformDepth = gl[UNIFORM]['u_depth'] = gl.getUniformLocation(program, "u_depth");
-  gl.uniform1f(uniformDepth, HTML.scrollHeight);
-  // const uniformScrollDepth = gl[UNIFORM]["u_scrolldepth"] = gl.getUniformLocation(program, "u_scrolldepth");
-  // gl.uniform1f(uniformScrollDepth, window.scrollY);
 
   const position = gl.getAttribLocation(program, 'a_position');
   gl.enableVertexAttribArray(position);
   gl.vertexAttribPointer(position, 2, gl.FLOAT, false, 0, 0);
 
   function draw() {
-    // gl.clearColor(0, 0, 0, 0);
-    // gl.clear(gl.COLOR_BUFFER_BIT);
     gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
   }
 
   resize(gl);
-  // watchResize(gl);
-  // watchScroll(gl, draw);
 
   return {
-    canvas,
     gl,
     program,
     draw,
     resize: () => resize(gl),
-    watchResize: () => watchResize(gl),
-    // watchScroll: () => watchScroll(gl),
     uniforms: gl[UNIFORM],
   };
 }

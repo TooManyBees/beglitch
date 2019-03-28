@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>beglitch usage example</title>
+  <script src="./html2canvas.min.js"></script>
+  <script src="./gl.js"></script>
+  <script src="./glitch.js"></script>
+</head>
+<body>
+
+  <p>
+    <code>beglitch</code> loads a fragment shader, specified by a url path, and gives the illusion of applying it to a DOM element.
+  </p>
+
+  <p>
+    It uses <code>html2canvas</code> to capture a screenshot of a DOM node, then uses that as the input texture to a second canvas which has the shader applied to it. It then overlays the second canvas on top of the original DOM node, disabling pointer events so the original page can still be clicked and selected.
+  </p>
+
+  <h1 id="page-title-1">Beglitch Example</h1>
+  <script>beglitch(document.getElementById('page-title-1'), "./jitter.frag");</script>
+  <p>
+    <code>beglitch(element, shaderPath)</code> fetches a fragment shader from <code>shaderPath</code> and applies it to a canvas that covers <code>element</code>.
+  </p>
+  <pre><code>
+    &lt;h1 id="page-title-1"&gt;Beglitch&lt;/h1&gt;
+    &lt;script&gt;
+      beglitch(
+        document.getElementById('page-title-1'),
+        "./jitter.frag",
+      );
+    &lt;/script&gt;
+  </code></pre>
+
+  <h1>
+    Beglitch Example
+    <script>beglitchThis("./vhs.frag");</script>
+  </h1>
+  <p>
+    <code>beglitchThis(shaderPath)</code> uses the script tag's parent node as the target element. This must be run in a blocking script tag because it uses <code>document.scripts</code> to find the current script tag in order to find its parent element.
+  </p>
+  <pre><code>
+    &lt;h1&gt;
+      Beglitch
+      &lt;script&gt;beglitchThis("./vhs.frag");&lt;/script&gt;
+    &lt;/h1&gt;
+  </code></pre>
+
+  <h1>
+    Beglitch Example
+    <script>beglitchThis("./jitter.frag", {u_magnitude: Math.floor(5 * Math.random()), u_jitter: -0.020});</script>
+  </h1>
+  <p>
+    <code>beglitch(element, shaderPath[, uniforms])</code> and <code>beglitchThis(shaderPath[, uniforms])</code> accept an optional param which is a key/value object of shader uniform values.
+  </p>
+  <pre><code>
+    &lt;h1&gt;
+      Beglitch
+      &lt;script&gt;
+        beglitchThis("./jitter.frag", {
+        u_magnitude: Math.floor(5 * Math.random()),
+        u_jitter: -0.020,
+      });&lt;/script&gt;
+    &lt;/h1&gt;
+  </code></pre>
+
+</body>
+</html>
