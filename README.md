@@ -2,9 +2,9 @@
 
 it's a js snippet for fetching a fragment shader and applying it to a dom node
 
-## usage
+## usage and demo
 
-see [demo](https://toomanybees.github.io/beglitch/)
+see [demo page (toomanybees.github.io/beglitch)](https://toomanybees.github.io/beglitch/)
 
 ## packaging
 
