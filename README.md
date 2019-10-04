@@ -1,6 +1,6 @@
 # beglitch
 
-it's a js snippet for fetching a fragment shader and applying it to a dom node
+it's a js snippet for fetching a fragment shader and applying it to a dom node. uses [html2canvas](https://html2canvas.hertzen.com/)
 
 ## usage and demo
 
