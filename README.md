@@ -8,4 +8,4 @@ see [demo page (toomanybees.github.io/beglitch)](https://toomanybees.github.io/b
 
 ## packaging
 
-concatenate the javascripts all together or something, idk
+concatenate the javascripts all together or something, idk.
